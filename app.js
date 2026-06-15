@@ -95,7 +95,7 @@ function openDetail(r){
     <div class="detail-grid">
       <div>
         <h3>Ingredienti</h3>
-        <div class="box">${escapeHtml(r.ingredienti || '')}</div>
+        <div class="box">${formatIngredients(r.ingredienti || '')}</div>
       </div>
       <div>
         <h3>Classificazione</h3>
@@ -119,5 +119,22 @@ Ingrediente principale: ${escapeHtml(r.ingrediente_principale || '')}</div>
 function escapeHtml(s){
   return (s ?? '').toString().replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 }
+function formatIngredients(text) {
 
+  if (!text) return "";
+
+  text = text.replace(/\s+/g, " ").trim();
+
+  const righe = text
+    .replace(/(\d+|½|⅓|⅔|¼|¾)\s+/g, "\n$1 ")
+    .split("\n")
+    .map(x => x.trim())
+    .filter(x => x.length > 0);
+
+  return `
+    <ul class="ingredient-list">
+      ${righe.map(x => `<li>${escapeHtml(x)}</li>`).join("")}
+    </ul>
+  `;
+}
 load();
