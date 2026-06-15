@@ -136,5 +136,24 @@ function formatIngredients(text) {
       ${righe.map(x => `<li>${escapeHtml(x)}</li>`).join("")}
     </ul>
   `;
+}function formatRecipeText(text) {
+  if (!text) return "";
+
+  let t = text
+    .replace(/\s+/g, " ")
+    .replace(/.*?Si cucina!\s*/i, "")
+    .replace(/\s*Conservazione\s*/i, "\n\n<strong>Conservazione</strong>\n")
+    .replace(/\s*Consiglio vegoloso\s*/i, "\n\n<strong>Consiglio vegoloso</strong>\n")
+    .replace(/\s*(Prepariamo|Cuociamo|Inforniamo|Serviamo|Completiamo|Frulliamo|Condiamo|Rosoliamo|Saltiamo|Decoriamo|Impastiamo|Diamo forma)\s*/gi, "\n\n<strong>$1</strong>\n");
+
+  return t
+    .split("\n")
+    .map(x => x.trim())
+    .filter(Boolean)
+    .map(x => {
+      if (x.startsWith("<strong>")) return x;
+      return `<p>${escapeHtml(x)}</p>`;
+    })
+    .join("");
 }
 load();
