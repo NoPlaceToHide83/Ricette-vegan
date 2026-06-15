@@ -120,22 +120,38 @@ function escapeHtml(s){
   return (s ?? '').toString().replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 }
 function formatIngredients(text) {
-
   if (!text) return "";
 
-  text = text.replace(/\s+/g, " ").trim();
+  let t = text.replace(/\s+/g, " ").trim();
 
-  const righe = text
-    .replace(/(\d+|½|⅓|⅔|¼|¾)\s+/g, "\n$1 ")
+  // protegge casi tipo "farina 0", "farina 00", "tipo 1", "tipo 2"
+  t = t.replace(/farina\s+0/g, "farina_ZERO");
+  t = t.replace(/farina\s+00/g, "farina_DOPPIOZERO");
+  t = t.replace(/tipo\s+1/g, "tipo_UNO");
+  t = t.replace(/tipo\s+2/g, "tipo_DUE");
+
+  const startPattern = /(?=\s(?:\d+[.,]?\d*|½|⅓|⅔|¼|¾)\s+(?:g|kg|ml|l|cucchiaio|cucchiai|cucchiaino|cucchiaini|spicchio|spicchi|rametto|rametti|bustina|bustine|bicchiere|bicchieri|pizzico|pizzichi|manciata|manciate|seme|semi|noce|noci|foglia|foglie|pomodori|mele|pere|carote|cipolle|arance|limoni|lime|patate|zucchine|melanzane|peperoni|carciofi|cavolfiori|cavolini|cedro|zucca|scalogni|datteri))/gi;
+
+  let items = t
+    .replace(startPattern, "\n")
     .split("\n")
     .map(x => x.trim())
-    .filter(x => x.length > 0);
+    .filter(Boolean);
+
+  // ripristina protezioni
+  items = items.map(x => x
+    .replace(/farina_ZERO/g, "farina 0")
+    .replace(/farina_DOPPIOZERO/g, "farina 00")
+    .replace(/tipo_UNO/g, "tipo 1")
+    .replace(/tipo_DUE/g, "tipo 2")
+  );
 
   return `
     <ul class="ingredient-list">
-      ${righe.map(x => `<li>${escapeHtml(x)}</li>`).join("")}
+      ${items.map(x => `<li>${escapeHtml(x)}</li>`).join("")}
     </ul>
   `;
+}
 }function formatRecipeText(text) {
   if (!text) return "";
 
