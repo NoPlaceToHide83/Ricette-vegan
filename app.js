@@ -110,8 +110,8 @@ Stagione: ${escapeHtml(r.stagione || '')}
 Ingrediente principale: ${escapeHtml(r.ingrediente_principale || '')}</div>
       </div>
     </div>
-    <h3>Testo ricetta</h3>
-    <div class="box">${escapeHtml(r.testo_pagina || '')}</div>
+    <h3>Preparazione</h3>
+<div class="box">${formatRecipeText(r.testo_pagina || '')}</div>
   `;
   $('detail').showModal();
 }
