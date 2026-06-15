@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ricette Vegan - Ricerca</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+</head>
+<body>
+  <header>
+    <h1>Ricette Vegan</h1>
+    <p>Archivio ricette ricercabile</p>
+  </header>
+
+  <main>
+    <section class="panel">
+      <input id="q" type="search" placeholder="Cerca: ceci pomodoro, tofu forno, cavolo nero..." autofocus>
+      <div class="filters">
+        <select id="portata"><option value="">Tutte le portate</option></select>
+        <select id="metodo"><option value="">Tutti i metodi</option></select>
+        <select id="stagione"><option value="">Tutte le stagioni</option></select>
+        <select id="tempo"><option value="">Qualsiasi durata</option><option value="15">Max 15 min</option><option value="30">Max 30 min</option><option value="45">Max 45 min</option><option value="60">Max 60 min</option></select>
+      </div>
+      <div class="checks">
+        <label><input type="checkbox" id="senzaGlutine"> senza glutine</label>
+        <label><input type="checkbox" id="senzaSoia"> senza soia</label>
+        <label><input type="checkbox" id="senzaFruttaSecca"> senza frutta secca</label>
+        <label><input type="checkbox" id="proteica"> proteica</label>
+        <label><input type="checkbox" id="legumi"> con legumi</label>
+        <label><input type="checkbox" id="carbo"> con carboidrati</label>
+      </div>
+      <div class="bar">
+        <span id="count">Caricamento...</span>
+        <button id="reset">Reset filtri</button>
+      </div>
+    </section>
+
+    <section id="results" class="results"></section>
+  </main>
+
+  <dialog id="detail">
+    <button id="close" class="close">×</button>
+    <div id="detailBody"></div>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>

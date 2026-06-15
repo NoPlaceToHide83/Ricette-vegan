@@ -1,0 +1,9 @@
+{
+  "name": "Ricette Vegan",
+  "short_name": "Ricette",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#f6f3ed",
+  "theme_color": "#26352c",
+  "icons": []
+}
